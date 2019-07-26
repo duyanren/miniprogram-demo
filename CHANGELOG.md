@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## 1.1.0 (2019-07-26)
 
-
 ### Features
 
-* add file ([dbdc7e3](https://github.com/duyanren/miniprogram-demo/commit/dbdc7e3))
+- add file ([dbdc7e3](https://github.com/duyanren/miniprogram-demo/commit/dbdc7e3))
