@@ -1,6 +1,6 @@
 {
   "name": "miniprogram-demo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "miniprogram demo",
   "author": "duyanren",
   "scripts": {
@@ -16,7 +16,6 @@
   },
   "lint-staged": {
     "src/**/*.{js}": [
-      "prettier --write",
       "eslint --fix",
       "git add"
     ]
