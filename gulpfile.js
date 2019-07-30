@@ -1,81 +1,72 @@
+/* eslint-disable no-console */
 const gulp = require('gulp');
-const del = require('del');
-const less = require('gulp-less');
-const imagemin = require('gulp-imagemin');
-const rename = require('gulp-rename');
+const clean = require('./build/clean');
+const compileTs = require('./build/compileTs');
+const compileLess = require('./build/compileLess');
+const copyJson = require('./build/copyJson');
+const copyWxml = require('./build/copyWxml');
+const copyJs = require('./build/copyJs');
+const copyAssets = require('./build/copyAssets');
+const fs = require('fs-extra');
+const path = require('path');
+const chalk = require('chalk');
+const cwd = process.cwd();
 
-const srcPath = './src/**';
-const distPath = './dist/';
-
-const lessFiles = ['./src/*.less'];
-const wxmlFiles = [`${srcPath}/*.wxml`];
-const jsonFiles = [`${srcPath}/*.json`];
-const jsFiles = [`${srcPath}/*.js`];
-const imgFiles = [`${srcPath}/*.{png,jpg,gif,ico}`];
-
-/* 编译wxml文件 */
-const wxml = () => {
-  return gulp.src(wxmlFiles, { since: gulp.lastRun(wxml) }).pipe(gulp.dest(distPath));
-};
-gulp.task(wxml);
-
-/* 编译JS文件 */
-const js = () => {
-  return gulp.src(jsFiles, { since: gulp.lastRun(js) }).pipe(gulp.dest(distPath));
-};
-gulp.task(js);
-/* 编译json文件 */
-const json = () => {
-  return gulp.src(jsonFiles, { since: gulp.lastRun(json) }).pipe(gulp.dest(distPath));
-};
-gulp.task(json);
-
-/* 编译less文件 */
-const wxss = () => {
-  return gulp
-    .src(lessFiles)
-    .pipe(less())
-    .pipe(rename({ extname: '.wxss' }))
-    .pipe(gulp.dest(distPath));
-};
-gulp.task(wxss);
-
-/* 编译压缩图片 */
-const img = () => {
-  return gulp
-    .src(imgFiles, { since: gulp.lastRun(img) })
-    .pipe(imagemin())
-    .pipe(gulp.dest(distPath));
-};
-gulp.task('img', img);
-
-/* copy src目录下所有的文件到dist目录 */
-gulp.task('copy', function() {
-  return gulp.src(`${srcPath}/*`).pipe(gulp.dest(distPath));
-});
-
-/* 清除dist目录 */
-gulp.task('clean', done => {
-  del.sync(['dist/**/*']);
-  done();
-});
+/* compile */
+function compile(filePath) {
+  console.info(chalk.green(`编译完成：${path.basename(filePath)}}`));
+  if (filePath.endsWith('.ts')) {
+    compileTs(filePath);
+  } else if (filePath.endsWith('.less')) {
+    compileLess(filePath);
+  } else if (filePath.endsWith('.wxml')) {
+    copyWxml(filePath);
+  } else if (filePath.endsWith('.json')) {
+    copyJson(filePath);
+  } else if (filePath.endsWith('.js')) {
+    copyJs(filePath);
+  } else {
+    copyAssets(filePath);
+  }
+}
 
 /* watch */
-gulp.task('watch', () => {
-  const watchLessFiles = [...lessFiles];
-  watchLessFiles.pop();
-  gulp.watch(watchLessFiles, wxss);
-  gulp.watch(jsFiles, js);
-  gulp.watch(imgFiles, img);
-  gulp.watch(jsonFiles, json);
-  gulp.watch(wxmlFiles, wxml);
-});
+function watch() {
+  console.log(chalk.blue(`正在监听文件...}`));
+  const watcher = gulp.watch('src/**/**');
 
-/* build */
-gulp.task('build', gulp.series('clean', gulp.parallel('wxml', 'js', 'json', 'wxss', 'img')));
+  watcher.on('change', function(filePath) {
+    compile(filePath);
+  });
 
-/* dev */
-gulp.task('dev', gulp.series('clean', gulp.parallel('wxml', 'js', 'json', 'wxss', 'img'), 'watch'));
+  watcher.on('add', function(filePath) {
+    compile(filePath);
+  });
 
-/* test */
-gulp.task('test', gulp.series('clean', gulp.parallel('wxml', 'js', 'json', 'wxss', 'img')));
+  watcher.on('unlink', function(filePath) {
+    let distFile = filePath.replace(/^src\b/, 'dist');
+    let absolutePath = '';
+    if (distFile.endsWith('.ts')) {
+      distFile = distFile.replace(/.ts$/, '.js');
+    } else if (distFile.endsWith('.less')) {
+      distFile = distFile.replace(/.less$/, '.wxss');
+    }
+    absolutePath = path.join(cwd, distFile);
+    if (fs.existsSync(absolutePath)) {
+      fs.unlinkSync(absolutePath);
+      console.log(chalk.yellow(`删除文件：${path.basename(distFile)}}`));
+    }
+  });
+}
+
+/* tasks */
+const tasks = [clean, gulp.parallel([compileTs, compileLess, copyJson, copyWxml, copyJs]), copyAssets];
+
+/* 开发环境 监听文件 */
+if (process.env.NODE_ENV === 'development') {
+  tasks.push(watch);
+}
+
+gulp.task('default', gulp.series(tasks));
+
+gulp.task('watch', watch);
