@@ -1,7 +1,14 @@
+/*
+ * @Author: dyr
+ * @Description: file content
+ * @Date: 2019-06-11 02:55:08
+ * @LastEditors: dyr
+ * @LastEditTime: 2019-10-28 19:08:43
+ */
 const gulp = require('gulp');
 const path = require('path');
 const cwd = process.cwd();
-const minifyHtml = require('gulp-html-minify');
+// const minifyHtml = require('gulp-html-minify');
 module.exports = function copyWxmlFiles(filePath) {
   let file = 'src/**/*.wxml';
   let dist = 'dist';
@@ -13,6 +20,6 @@ module.exports = function copyWxmlFiles(filePath) {
   }
   return gulp
     .src(file)
-    .pipe(minifyHtml())
+    // .pipe(minifyHtml())
     .pipe(gulp.dest(dist));
 };

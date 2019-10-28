@@ -1,57 +1,31 @@
+/*
+ * @Author: dyr
+ * @Description: file content
+ * @Date: 2019-07-26 12:23:20
+ * @LastEditors: dyr
+ * @LastEditTime: 2019-10-28 19:26:02
+ */
 //index.js
 //获取应用实例
-import { delay } from '@/utils/util';
 
-const app = getApp();
+// const app = getApp();
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    networkType: '',
   },
+  app: getApp(),
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs',
     });
   },
-  onLoad: function() {
-    console.log('%cdelay: ', 'color: MidnightBlue; background: Aquamarine; font-size: 20px;', delay);
-
-    if (app.globalData.userInfo) {
-      this.setData!({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-      });
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = (res: any) => {
-        this.setData!({
-          userInfo: res.userInfo || {},
-          hasUserInfo: true,
-        });
-      };
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo;
-          this.setData!({
-            userInfo: res.userInfo,
-            hasUserInfo: true,
-          });
-        },
-      });
-    }
-  },
-  getUserInfo: function(e: any) {
-    app.globalData.userInfo = e.detail.userInfo;
+  onGetNetWork() {
+    const networkType = this.app.globalData.networkType;
     this.setData!({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true,
+      networkType,
     });
   },
+  onLoad: function() {},
 });

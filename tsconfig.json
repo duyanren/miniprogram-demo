@@ -3,10 +3,10 @@
     "module": "es2015",
     "target": "es2018",
     "outDir": "dist",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "experimentalDecorators": true,
     "pretty": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
@@ -14,21 +14,25 @@
     "skipLibCheck": true,
     "allowJs": true,
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDir": "./src",
     "forceConsistentCasingInFileNames": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noUnusedParameters":true,
+    "noEmitHelpers":true,
+    "noUnusedLocals": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
     "emitDecoratorMetadata": true,
+ 
     "removeComments": true,
     "baseUrl": ".",
+    "typeRoots": ["./typings", "./node_modules/@types"],
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "src/artifacts"],
   "include": ["src/**/**/*", "typings/*"]
 }
