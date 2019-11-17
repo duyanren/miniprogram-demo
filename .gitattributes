@@ -1,0 +1,4 @@
+*.less linguist-detectable=Typescript
+*.css linguist-detectable=Typescript
+*.ts linguist-detectable=Typescript
+*.js linguist-detectable=Typescript
