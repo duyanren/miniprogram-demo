@@ -3,7 +3,7 @@
  * @Description: file content
  * @Date: 2019-07-26 12:23:20
  * @LastEditors: dyr
- * @LastEditTime: 2019-10-28 19:24:11
+ * @LastEditTime: 2019-11-17 11:41:31
  */
 import wxp from '@/utils/wxp';
 //app.js
