@@ -3,7 +3,7 @@
  * @Description: file content
  * @Date: 2019-10-28 18:52:31
  * @LastEditors: dyr
- * @LastEditTime: 2019-10-28 19:22:06
+ * @LastEditTime: 2019-11-17 15:27:59
  */
 
 // 需要promise化的api接口
@@ -136,7 +136,7 @@ function wxpromisify<T>(
 ): (...args: any[]) => Promise<T> {
   return (...args: any[]) =>
     new Promise((resolve, reject) => {
-      let { success, fail, complete, ...arg } = (args[callbackIndex] || {}) as any;
+      const { success, fail, complete, ...arg } = (args[callbackIndex] || {}) as any;
 
       args[callbackIndex] = {
         ...arg,
@@ -156,14 +156,13 @@ function wxpromisify<T>(
 }
 const wxp = {};
 Object.getOwnPropertyNames(wx).forEach(key => {
-  let desc = Object.getOwnPropertyDescriptor(wx, key);
+  const desc = Object.getOwnPropertyDescriptor(wx, key);
   if (desc) {
     if (PROMISABLE.FUNCS.indexOf(key) >= 0) {
       Object.defineProperty(wxp, key, {
         configurable: desc.configurable,
         enumerable: desc.enumerable,
         get: function() {
-          // @ts-ignore
           return wxpromisify(wx[key], wx);
         },
       });

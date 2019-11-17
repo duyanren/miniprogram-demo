@@ -1,0 +1,13 @@
+{
+  "reporters": ["html"],
+  "ignore": ["**/__snapshots__/**"],
+  "absolute": true,
+  "languages": {
+    "javascript": ["js", "es", "jsx", "es6"],
+    "typescript": ["ts", "tsx"],
+    "css": ["less", "css"],
+    "sass": ["sass"]
+  },
+  "output": "./report/jscpd",
+  "blame": false
+}

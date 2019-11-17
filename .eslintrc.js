@@ -1,3 +1,10 @@
+/*
+ * @Author: dyr
+ * @Description: eslint 规则配置
+ * @Date: 2019-09-17 17:23:03
+ * @LastEditors: dyr
+ * @LastEditTime: 2019-11-17 14:21:00
+ */
 module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   extends: [
@@ -19,6 +26,8 @@ module.exports = {
     Behavior: true,
     wx: true,
     getApp: true,
+    getCurrentPages: true,
+    wxp: true,
   },
   env: {
     //脚本目标的运行环境
@@ -51,13 +60,14 @@ module.exports = {
       },
     ],
     // 禁止使用console
-    'no-console': 'error',
+    'no-console': 'warn',
     'no-debugger': 1, // 禁止 debugger 语句，
     'no-return-assign': 'warn',
     'array-callback-return': 'error', // 回调函数必须有返回值
     'guard-for-in': 'error', // for in时需检测hasOwnProperty，避免遍历到继承来的属性方法
     'default-case': 'error', // switch 语句必须包含 default
     'no-const-assign': 'error', // 禁止对const定义重新赋值
+    'no-var': 'error', // 禁止 var 的使用，推荐使用 const 或 let
     'max-len': ['error', { code: 120 }], // 字符串最大长度
     eqeqeq: 'error', // 必须使用全等===进行比较，防止隐式转换带来的意外问题
     'no-undef': 'error', // 当访问当前源文件内未定义的变量时，no-undef 规则将发出警告
@@ -132,6 +142,8 @@ module.exports = {
     'no-shadow': ['error', { hoist: 'functions' }],
     // 类和接口的命名必须遵守帕斯卡命名法，比如 PersianCat
     '@typescript-eslint/class-name-casing': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
+    // '@typescript-eslint/no-unused-variable': 'error',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

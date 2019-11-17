@@ -1,14 +1,17 @@
 {
   "name": "miniprogram-demo",
-  "version": "1.2.0",
-  "description": "miniprogram demo",
+  "version": "1.0.0",
+  "main": "",
   "author": "duyanren",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint src --ext .js",
     "precommit": "lint-staged",
+    "start": "gulp bumpversion && cross-env NODE_ENV=development gulp",
+    "build": "gulp bumpversion && cross-env NODE_ENV=production gulp",
     "release": "standard-version",
-    "start": "cross-env NODE_ENV=development gulp",
-    "build": "cross-env NODE_ENV=production gulp"
+    "cpd": "gulp jscpd && jscpd ./jscpd -c .jscpd.json; open ./report/jscpd/jscpd-report.html && gulp clean-cpd",
+    "tag": "gulp tag"
   },
   "husky": {
     "hooks": {
@@ -17,12 +20,11 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js}": [
-      "eslint --fix",
+    "src/**/*.{js,ts}": [
+      "eslint",
       "git add"
     ]
   },
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -37,8 +39,8 @@
     "@babel/runtime": "^7.6.0",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.13.0",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
     "autoprefixer": "^9.5.1",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-array-includes": "^2.0.3",
@@ -47,17 +49,17 @@
     "babel-plugin-ts-optchain": "^1.1.5",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-minify": "^0.5.0",
-    "chalk": "^2.4.2",
-    "cross-env": "^5.2.0",
+    "chalk": "^3.0.0",
+    "cross-env": "^6.0.3",
     "del": "^5.0.0",
-    "eslint": "5.12.0",
+    "eslint": "5.4.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "fs-extra": "^8.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-bump": "^3.1.3",
-    "gulp-csso": "^3.0.1",
+    "gulp-csso": "^4.0.1",
     "gulp-debug": "^4.0.0",
     "gulp-filter": "^6.0.0",
     "gulp-git": "^2.9.0",
@@ -65,14 +67,14 @@
     "gulp-if": "^3.0.0",
     "gulp-jsonminify": "^1.1.0",
     "gulp-less": "^4.0.1",
-    "gulp-load-plugins": "^1.5.0",
+    "gulp-load-plugins": "^2.0.1",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-sass": "^4.0.2",
-    "gulp-tap": "^1.0.1",
+    "gulp-tap": "^2.0.0",
     "gulp-terser": "^1.2.0",
     "gulp-ts-alias": "^1.1.0",
     "gulp-typescript": "^5.0.1",
@@ -83,10 +85,11 @@
     "merge-stream": "^2.0.0",
     "postcss-pxtorpx": "^1.0.0",
     "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.0",
     "standard-version": "^7.0.0",
     "ts-optchain": "^0.1.8",
     "tslib": "^1.9.3",
     "typescript": "^3.5.3",
-    "yargs": "^13.3.0"
+    "yargs": "^15.0.1"
   }
 }
